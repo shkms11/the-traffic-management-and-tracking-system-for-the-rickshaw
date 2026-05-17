@@ -1,6 +1,8 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+
 import { setRole, type Role } from "../shared/lib/auth";
+
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -16,34 +18,47 @@ export default function LoginPage() {
     navigate(`/${role}`);
   };
 
-  const roles: { role: Role; desc: string }[] = [
+  const roles: {
+    role: Role;
+    title: string;
+    desc: string;
+  }[] = [
     {
       role: "admin",
-      desc: "System monitoring, traffic analytics, control center",
+      title: "Admin",
+      desc: "Monitor traffic, analyze congestion, and manage city operations.",
     },
     {
       role: "owner",
-      desc: "Manage rickshaws, drivers, and earnings",
+      title: "Owner",
+      desc: "Manage your rickshaws, drivers, and operational earnings.",
     },
     {
-      role: "user",
-      desc: "Find and track nearest rickshaws",
+      role: "driver",
+      title: "Driver",
+      desc: "Track your rickshaw, monitor GPS, and view travel distance.",
     },
   ];
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-100 p-4">
-      <div className="w-full max-w-2xl space-y-6">
+    <div className="min-h-screen bg-gray-100 flex items-center justify-center p-4">
+      <div className="w-full max-w-3xl space-y-6">
         {/* Header */}
         <div className="text-center space-y-2">
-          <h1 className="text-2xl font-bold">Rickshaw System</h1>
+          <h1 className="text-3xl font-bold">
+            Rickshaw Traffic Management System
+          </h1>
+
           <p className="text-gray-500">
-            Select your role to {mode === "login" ? "login" : "register"}
+            Choose your role to{" "}
+            <span className="font-medium">
+              {mode === "login" ? "login" : "register"}
+            </span>
           </p>
         </div>
 
-        {/* Mode Switch */}
-        <div className="flex justify-center gap-2">
+        {/* Login/Register Toggle */}
+        <div className="flex justify-center gap-3">
           <Button
             variant={mode === "login" ? "default" : "outline"}
             onClick={() => setMode("login")}
@@ -60,22 +75,25 @@ export default function LoginPage() {
         </div>
 
         {/* Role Cards */}
-        <div className="grid md:grid-cols-3 gap-4">
-          {roles.map((r) => (
+        <div className="grid gap-4 md:grid-cols-3">
+          {roles.map((item) => (
             <Card
-              key={r.role}
-              className="p-4 cursor-pointer hover:shadow-lg transition"
-              onClick={() => handleSelect(r.role)}
+              key={item.role}
+              onClick={() => handleSelect(item.role)}
+              className="cursor-pointer p-5 transition hover:shadow-lg"
             >
-              <div className="flex justify-between items-center mb-2">
-                <h2 className="font-semibold capitalize">{r.role}</h2>
-                <Badge variant="secondary">{mode}</Badge>
+              <div className="mb-3 flex items-center justify-between">
+                <h2 className="text-lg font-semibold">{item.title}</h2>
+
+                <Badge variant="secondary" className="capitalize">
+                  {mode}
+                </Badge>
               </div>
 
-              <p className="text-sm text-gray-500">{r.desc}</p>
+              <p className="min-h-[72px] text-sm text-gray-500">{item.desc}</p>
 
-              <Button className="w-full mt-4">
-                {mode === "login" ? "Login" : "Register"} as {r.role}
+              <Button className="mt-4 w-full">
+                {mode === "login" ? "Login" : "Register"} as {item.title}
               </Button>
             </Card>
           ))}

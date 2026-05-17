@@ -1,4 +1,4 @@
-export type Role = "admin" | "owner" | "user";
+export type Role = "admin" | "owner" | "driver";
 
 const ROLE_KEY = "app_role";
 
