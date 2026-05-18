@@ -1,13 +1,22 @@
 {
   "name": "the-traffic-management-and-tracking-system-for-the-rickshaw",
   "private": true,
-  "version": "0.0.0",
+  "version": "0.1.0",
   "type": "module",
   "scripts": {
     "dev": "vite",
+    "dev:host": "vite --host",
     "build": "tsc -b && vite build",
+    "preview": "vite preview",
     "lint": "eslint .",
-    "preview": "vite preview"
+    "lint:fix": "eslint . --fix",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest",
+    "test:ui": "vitest --ui",
+    "test:run": "vitest run",
+    "msw": "msw init public/ --save",
+    "barrel": "barrelsby --delete --directory src",
+    "keep": "powershell -Command \"Get-ChildItem src -Directory -Recurse | Where-Object { $_.GetFileSystemInfos().Count -eq 0 } | ForEach-Object { New-Item -ItemType File -Path \\\"$($_.FullName)\\\\.gitkeep\\\" -Force }\""
   },
   "dependencies": {
     "@base-ui/react": "^1.4.1",
@@ -40,17 +49,17 @@
     "@types/react": "^19.2.14",
     "@types/react-dom": "^19.2.3",
     "@vitejs/plugin-react": "^6.0.1",
+    "vite": "^8.0.12",
+    "vite-tsconfig-paths": "^6.1.1",
+    "typescript": "~6.0.2",
+    "typescript-eslint": "^8.59.2",
     "eslint": "^10.3.0",
     "eslint-plugin-react-hooks": "^7.1.1",
     "eslint-plugin-react-refresh": "^0.5.2",
     "globals": "^17.6.0",
     "jsdom": "^27.0.1",
     "msw": "^2.14.6",
-    "tailwindcss": "^4.3.0",
-    "typescript": "~6.0.2",
-    "typescript-eslint": "^8.59.2",
-    "vite": "^8.0.12",
-    "vite-tsconfig-paths": "^6.1.1",
+    "barrelsby": "^2.8.1",
     "vitest": "^3.2.4"
   },
   "msw": {

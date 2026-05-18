@@ -1,5 +1,4 @@
-import AppRoutes from "../routes";
-import Providers from "./providers";
+import { AppRoutes, Providers } from "@";
 
 export default function App() {
   return (
