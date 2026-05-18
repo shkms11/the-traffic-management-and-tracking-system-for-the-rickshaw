@@ -71,7 +71,7 @@ export function Header({ title }: Props) {
       `}
     >
       <div className="mx-auto flex max-w-5xl items-center justify-between gap-3 px-3 py-3 sm:px-4">
-        <div className="flex items-center gap-2 sm:gap-3">
+        <div className="flex items-center gap-3 sm:gap-4">
           <button
             onClick={() => navigate("/")}
             className="rounded-lg p-2 -ml-1 hover:bg-neutral-100 transition"
