@@ -4,13 +4,18 @@ import { Footer } from "@/shared/components/layout/Footer";
 
 export function AppLayout() {
   return (
-    <div className="min-h-screen bg-gray-100 flex flex-col">
+    <div className="min-h-screen flex flex-col bg-gradient-to-b from-white via-gray-50 to-gray-100">
+      {/* Header */}
       <Header />
 
-      <main className="flex-1 mx-auto w-full max-w-6xl p-4">
-        <Outlet />
+      {/* Main (NO top gap, full seamless flow) */}
+      <main className="flex-1 w-full">
+        <div className="w-full">
+          <Outlet />
+        </div>
       </main>
 
+      {/* Footer */}
       <Footer />
     </div>
   );
