@@ -1,17 +1,20 @@
 import { Routes, Route, Navigate } from "react-router-dom";
 
+import HomePage from "@/pages/HomePage";
+
 import AdminDashboardPage from "../pages/admin/AdminDashboardPage";
 import OwnerDashboardPage from "../pages/owner/OwnerDashboardPage";
 import DriverDashboardPage from "../pages/driver/DriverDashboardPage";
-import LoginPage from "../pages/LoginPage";
 
 import RequireRole from "../shared/components/RequireRole";
 
 export default function AppRoutes() {
   return (
     <Routes>
-      <Route path="/" element={<LoginPage />} />
+      {/* HOME */}
+      <Route path="/" element={<HomePage />} />
 
+      {/* ADMIN */}
       <Route
         path="/admin"
         element={
@@ -21,6 +24,7 @@ export default function AppRoutes() {
         }
       />
 
+      {/* OWNER */}
       <Route
         path="/owner"
         element={
@@ -30,6 +34,7 @@ export default function AppRoutes() {
         }
       />
 
+      {/* DRIVER */}
       <Route
         path="/driver"
         element={
@@ -39,7 +44,8 @@ export default function AppRoutes() {
         }
       />
 
-      <Route path="*" element={<Navigate to="/" />} />
+      {/* fallback */}
+      <Route path="*" element={<Navigate to="/" replace />} />
     </Routes>
   );
 }

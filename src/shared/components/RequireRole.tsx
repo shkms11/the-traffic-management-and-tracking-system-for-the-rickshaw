@@ -1,18 +1,25 @@
 import { Navigate } from "react-router-dom";
-import { getRole, type Role } from "../lib/auth";
 
-export default function RequireRole({
-  role,
-  children,
-}: {
+type Role = "driver" | "owner" | "admin";
+
+type Props = {
   role: Role;
   children: React.ReactNode;
-}) {
-  const currentRole = getRole();
+};
 
-  if (currentRole !== role) {
+export default function RequireRole({ role, children }: Props) {
+  const savedRole = localStorage.getItem("role") as Role | null;
+
+  // 🚨 No role found → treat as unauthenticated
+  if (!savedRole) {
     return <Navigate to="/" replace />;
   }
 
-  return children;
+  // 🚨 Role mismatch → block access
+  if (savedRole !== role) {
+    return <Navigate to="/" replace />;
+  }
+
+  // ✅ Allowed
+  return <>{children}</>;
 }

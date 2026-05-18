@@ -54,7 +54,6 @@ export * from "./hooks/use-mobile";
 export * from "./lib/utils";
 export * from "./mocks/browser";
 export * from "./mocks/handlers";
-export * from "./pages/LoginPage";
 export * from "./pages/admin/AdminDashboardPage";
 export * from "./pages/driver/DriverDashboardPage";
 export * from "./pages/owner/OwnerDashboardPage";

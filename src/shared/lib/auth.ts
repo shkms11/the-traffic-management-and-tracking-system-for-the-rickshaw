@@ -7,7 +7,13 @@ export function setRole(role: Role) {
 }
 
 export function getRole(): Role | null {
-  return localStorage.getItem(ROLE_KEY) as Role | null;
+  const role = localStorage.getItem(ROLE_KEY);
+
+  if (role === "admin" || role === "owner" || role === "driver") {
+    return role;
+  }
+
+  return null;
 }
 
 export function clearRole() {

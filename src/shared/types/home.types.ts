@@ -1,0 +1,38 @@
+export type Lang = "en" | "bn";
+export type Mode = "login" | "register";
+export type Role = "driver" | "owner" | "admin";
+
+export type TextPack = {
+  title: string;
+  heroBadge: string;
+  heroTitle: string;
+  heroHighlight: string;
+  heroDesc: string;
+  primary: string;
+  secondary: string;
+  chooseAction: string;
+  chooseRole: string;
+  login: string;
+  register: string;
+  driver: string;
+  owner: string;
+  admin: string;
+  back: string;
+  infoTitle: string;
+  infoDesc: string;
+  feature1Title: string;
+  feature1Desc: string;
+  feature2Title: string;
+  feature2Desc: string;
+  feature3Title: string;
+  feature3Desc: string;
+  feature4Title: string;
+  feature4Desc: string;
+  stat1: string;
+  stat2: string;
+  stat3: string;
+  stat4: string;
+  footer: string;
+  toggleLang: string;
+  textSize: string;
+};
