@@ -57,7 +57,6 @@ export * from "./mocks/handlers";
 export * from "./pages/admin/AdminDashboardPage";
 export * from "./pages/driver/DriverDashboardPage";
 export * from "./pages/owner/OwnerDashboardPage";
-export { default as AppRoutes } from "./routes";
 export * from "./shared/api/baseApi";
 export * from "./shared/components/RequireRole";
 export * from "./shared/components/layout/DashboardLayout";

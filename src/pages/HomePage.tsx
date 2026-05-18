@@ -1,50 +1,46 @@
 import { useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-import { HomeHeader } from "@/shared/components/home/HomeHeader";
 import { HeroSection } from "@/shared/components/home/HeroSection";
 import { AuthCard } from "@/shared/components/home/AuthCard";
 import { FeatureGrid } from "@/shared/components/home/FeatureGrid";
 import { InfoStatsSection } from "@/shared/components/home/InfoStatsSection";
-import { HomeFooter } from "@/shared/components/home/HomeFooter";
 
 import { HOME_TEXT } from "@/shared/types/home.content";
-import type { Lang, Mode, Role } from "@/shared/types/home.types";
+import type { Mode, Role } from "@/shared/types/home.types";
+
+import { useAppSelector } from "@/app/hooks";
 
 export default function HomePage() {
   const navigate = useNavigate();
 
-  const [lang, setLang] = useState<Lang>("bn");
-  const [largeText, setLargeText] = useState(false);
+  // ✅ Redux UI state (GLOBAL)
+  const { lang, largeText } = useAppSelector((state) => state.ui);
 
   const [step, setStep] = useState<1 | 2>(1);
   const [mode, setMode] = useState<Mode | null>(null);
 
   const text = useMemo(() => HOME_TEXT[lang], [lang]);
 
-  // STEP 1: login / register selection
+  // STEP 1
   const startAuth = (selectedMode: Mode) => {
     setMode(selectedMode);
     setStep(2);
   };
 
-  // RESET FLOW
+  // RESET
   const resetAuth = () => {
     setStep(1);
     setMode(null);
   };
 
-  // STEP 2: role selection → FINAL NAVIGATION
+  // STEP 2 → ROLE NAVIGATION
   const handleRoleSelect = (role: Role) => {
     if (!mode) return;
 
-    // ✅ IMPORTANT: store role for RequireRole guard
     localStorage.setItem("role", role);
-
-    // optional: store mode (login/register)
     sessionStorage.setItem("auth_mode", mode);
 
-    // ✅ direct navigation to dashboard
     navigate(`/${role}`);
   };
 
@@ -62,15 +58,6 @@ export default function HomePage() {
       >
         Skip to content
       </a>
-
-      {/* HEADER */}
-      <HomeHeader
-        text={text}
-        lang={lang}
-        setLang={setLang}
-        largeText={largeText}
-        setLargeText={setLargeText}
-      />
 
       {/* MAIN */}
       <main
@@ -107,9 +94,6 @@ export default function HomePage() {
         {/* INFO */}
         <InfoStatsSection text={text} />
       </main>
-
-      {/* FOOTER */}
-      <HomeFooter text={text} />
     </div>
   );
 }
