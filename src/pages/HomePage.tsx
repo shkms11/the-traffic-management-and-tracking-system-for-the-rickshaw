@@ -18,6 +18,9 @@ export default function HomePage() {
   const [step, setStep] = useState<1 | 2>(1);
   const [mode, setMode] = useState<Mode | null>(null);
 
+  // NEW
+  const [highlightAuth, setHighlightAuth] = useState(false);
+
   const authRef = useRef<HTMLDivElement | null>(null);
 
   const text = useMemo(() => HOME_TEXT[lang], [lang]);
@@ -41,7 +44,6 @@ export default function HomePage() {
     navigate(`/${role}`);
   };
 
-  // ✅ NEW: Get Started now only focuses AuthCard
   const handleGetStarted = () => {
     resetAuth();
 
@@ -49,6 +51,13 @@ export default function HomePage() {
       behavior: "smooth",
       block: "center",
     });
+
+    // subtle temporary highlight
+    setHighlightAuth(true);
+
+    setTimeout(() => {
+      setHighlightAuth(false);
+    }, 1200);
   };
 
   return (
@@ -93,20 +102,44 @@ export default function HomePage() {
         <motion.section
           ref={authRef}
           initial={{ y: 15, opacity: 0 }}
-          animate={{ y: 0, opacity: 1 }}
-          transition={{ delay: 0.1 }}
+          animate={{
+            y: 0,
+            opacity: 1,
+            scale: highlightAuth ? 1.01 : 1,
+          }}
+          transition={{
+            delay: 0.1,
+            duration: 0.35,
+          }}
           className="mt-6 sm:mt-8"
         >
-          <div className="mx-auto max-w-2xl px-4 sm:px-6">
-            <AuthCard
-              text={text}
-              step={step}
-              mode={mode}
-              onLogin={() => startAuth("login")}
-              onRegister={() => startAuth("register")}
-              onBack={resetAuth}
-              onSelectRole={handleRoleSelect}
-            />
+          <div
+            className={`
+              mx-auto max-w-2xl px-4 sm:px-6
+              transition-all duration-500
+              ${
+                highlightAuth
+                  ? "drop-shadow-[0_0_24px_rgba(16,185,129,0.18)]"
+                  : ""
+              }
+            `}
+          >
+            <div
+              className={`
+                rounded-2xl transition-all duration-500
+                ${highlightAuth ? "ring-2 ring-emerald-300/60" : "ring-0"}
+              `}
+            >
+              <AuthCard
+                text={text}
+                step={step}
+                mode={mode}
+                onLogin={() => startAuth("login")}
+                onRegister={() => startAuth("register")}
+                onBack={resetAuth}
+                onSelectRole={handleRoleSelect}
+              />
+            </div>
           </div>
         </motion.section>
 
