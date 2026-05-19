@@ -1,16 +1,23 @@
 import type { Driver } from "../../types/driver.type";
 
+import DriverProfile from "../DriverProfile";
+
 import AssignedRickshawCard from "./AssignedRickshawCard";
-import RealTimeTrackingWidget from "./RealTimeTrackingWidget";
-import MarkRickshawLostCard from "./MarkRickshawLostCard";
 import RunningStatusWidget from "./RunningStatusWidget";
-import DriverWalletWidget from "./DriverWalletWidget";
-import DriverNoticeBoard from "@/features/driver/components/dashboard/DriverNoticeBoard";
+
+import RealTimeTrackingWidget from "./RealTimeTrackingWidget";
+
+import MarkRickshawLostCard from "./MarkRickshawLostCard";
 import RickshawServiceStatusWidget from "./RickshawServiceStatusWidget";
+
+import DriverWalletWidget from "./DriverWalletWidget";
+
+import DriverNoticeBoard from "@/features/driver/components/dashboard/DriverNoticeBoard";
+
 import HealthInfoWidget from "../HealthInfoWidget";
 import HydrationReminderWidget from "../HydrationReminderWidget";
+
 import PremiumFeatureGate from "./PremiumFeatureGate";
-import DriverProfile from "../DriverProfile";
 
 type Props = {
   driver: Driver;
@@ -18,39 +25,63 @@ type Props = {
 
 export default function DriverDashboard({ driver }: Props) {
   return (
-    <div className="space-y-6">
-      {/* Driver Profile */}
+    <div className="space-y-8">
+      {/* ===================== */}
+      {/* PROFILE */}
+      {/* ===================== */}
       <DriverProfile driver={driver} />
 
-      {/* Core Status */}
-      <div className="grid gap-4 md:grid-cols-2">
+      {/* ===================== */}
+      {/* CORE STATUS */}
+      {/* ===================== */}
+      <section className="grid gap-4 md:grid-cols-2">
         <AssignedRickshawCard driver={driver} />
         <RunningStatusWidget />
-      </div>
+      </section>
 
-      {/* Tracking */}
-      <RealTimeTrackingWidget />
+      {/* ===================== */}
+      {/* LIVE TRACKING */}
+      {/* ===================== */}
+      <section>
+        <RealTimeTrackingWidget />
+      </section>
 
-      {/* Service & Safety Actions */}
-      <div className="grid gap-4 md:grid-cols-2">
+      {/* ===================== */}
+      {/* OPERATIONS */}
+      {/* ===================== */}
+      <section className="grid gap-4 md:grid-cols-2">
         <MarkRickshawLostCard />
         <RickshawServiceStatusWidget />
-      </div>
+      </section>
 
-      {/* Wallet */}
-      <DriverWalletWidget driver={driver} />
+      {/* ===================== */}
+      {/* FINANCE */}
+      {/* ===================== */}
+      <section>
+        <DriverWalletWidget driver={driver} />
+      </section>
 
-      {/* Driver Support */}
-      <DriverNoticeBoard />
+      {/* ===================== */}
+      {/* SUPPORT & NOTICES */}
+      {/* ===================== */}
+      <section>
+        <DriverNoticeBoard />
+      </section>
 
-      {/* Health & Wellbeing */}
-      <div className="grid gap-4 md:grid-cols-2">
+      {/* ===================== */}
+      {/* HEALTH & WELLBEING */}
+      {/* ===================== */}
+      <section className="grid gap-4 md:grid-cols-2">
         <HealthInfoWidget />
         <HydrationReminderWidget />
-      </div>
+      </section>
 
-      {/* Premium */}
-      <PremiumFeatureGate />
+      {/* ===================== */}
+      {/* PREMIUM */}
+      {/* ===================== */}
+      <section>
+        <PremiumFeatureGate />
+      </section>
     </div>
   );
 }

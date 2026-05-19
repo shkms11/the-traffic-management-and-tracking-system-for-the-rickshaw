@@ -9,13 +9,19 @@ export default function DriverDashboardPage() {
     phone: "017XXXXXXXX",
     nid: "1234567890",
     licenseNumber: "D-45892",
+
     status: "active",
+
     address: {
       line1: "",
       area: "Kaliganj",
       city: "Dhaka",
       country: "Bangladesh",
     },
+
+    walletBalance: 1250,
+    todayEarnings: 320,
+    payoutStatus: "ready_to_withdraw",
   };
 
   return (

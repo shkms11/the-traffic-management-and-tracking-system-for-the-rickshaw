@@ -5,16 +5,24 @@ import { fileURLToPath } from "url";
 import path from "path";
 import tsconfigPaths from "vite-tsconfig-paths";
 
-// Resolve __dirname equivalent in ES modules
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-// https://vite.dev/config/
-export default defineConfig({
+const repoName = "the-traffic-management-and-tracking-system-for-the-rickshaw";
+
+export default defineConfig(({ mode }) => ({
   plugins: [react(), tailwindcss(), tsconfigPaths()],
+
+  base: mode === "production" ? `/${repoName}/` : "/",
+
   resolve: {
     alias: {
       "@": path.resolve(__dirname, "./src"),
     },
   },
-});
+
+  build: {
+    outDir: "dist",
+    sourcemap: false,
+  },
+}));

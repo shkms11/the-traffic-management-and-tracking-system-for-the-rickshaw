@@ -16,7 +16,9 @@
     "test:run": "vitest run",
     "msw": "msw init public/ --save",
     "barrel": "barrelsby --delete --directory src",
-    "keep": "powershell -Command \"Get-ChildItem src -Directory -Recurse | Where-Object { $_.GetFileSystemInfos().Count -eq 0 } | ForEach-Object { New-Item -ItemType File -Path \\\"$($_.FullName)\\\\.gitkeep\\\" -Force }\""
+    "keep": "powershell -Command \"Get-ChildItem src -Directory -Recurse | Where-Object { $_.GetFileSystemInfos().Count -eq 0 } | ForEach-Object { New-Item -ItemType File -Path \\\"$($_.FullName)\\\\.gitkeep\\\" -Force }\"",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d dist"
   },
   "dependencies": {
     "@base-ui/react": "^1.4.1",
@@ -54,6 +56,7 @@
     "eslint": "^10.3.0",
     "eslint-plugin-react-hooks": "^7.1.1",
     "eslint-plugin-react-refresh": "^0.5.2",
+    "gh-pages": "^6.3.0",
     "globals": "^17.6.0",
     "jsdom": "^27.0.1",
     "msw": "^2.14.6",

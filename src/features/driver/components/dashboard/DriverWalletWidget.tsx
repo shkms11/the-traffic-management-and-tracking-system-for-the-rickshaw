@@ -7,10 +7,29 @@ type Props = {
 };
 
 export default function DriverWalletWidget({ driver }: Props) {
-  // Temporary mock data
-  const walletBalance = 1250;
-  const todayEarnings = 320;
-  const payoutStatus = "Ready to withdraw";
+  // ✅ real data from domain model
+  const walletBalance = driver.walletBalance;
+  const todayEarnings = driver.todayEarnings;
+  const payoutStatus = driver.payoutStatus;
+
+  const formattedBalance = new Intl.NumberFormat("en-BD", {
+    style: "currency",
+    currency: "BDT",
+    maximumFractionDigits: 0,
+  }).format(walletBalance);
+
+  const formattedEarnings = new Intl.NumberFormat("en-BD", {
+    style: "currency",
+    currency: "BDT",
+    maximumFractionDigits: 0,
+  }).format(todayEarnings);
+
+  const payoutLabelMap: Record<typeof payoutStatus, string> = {
+    ready_to_withdraw: "Ready to withdraw",
+    pending: "Pending",
+    processing: "Processing...",
+    completed: "Completed",
+  };
 
   return (
     <div className="relative overflow-hidden rounded-3xl border border-white/30 bg-white/20 backdrop-blur-xl shadow-[0_8px_32px_rgba(0,0,0,0.08)]">
@@ -39,7 +58,7 @@ export default function DriverWalletWidget({ driver }: Props) {
           <div className="mb-4 rounded-2xl border border-white/30 bg-white/25 p-5 backdrop-blur-md">
             <p className="text-sm text-neutral-500">Available Balance</p>
             <p className="mt-1 text-3xl font-semibold text-emerald-800">
-              ৳{walletBalance}
+              {formattedBalance}
             </p>
           </div>
 
@@ -48,14 +67,14 @@ export default function DriverWalletWidget({ driver }: Props) {
             <div className="rounded-2xl border border-white/30 bg-white/25 p-4 backdrop-blur-md">
               <p className="text-sm text-neutral-500">Today’s Earnings</p>
               <p className="mt-1 text-lg font-semibold text-neutral-800">
-                ৳{todayEarnings}
+                {formattedEarnings}
               </p>
             </div>
 
             <div className="rounded-2xl border border-white/30 bg-white/25 p-4 backdrop-blur-md">
               <p className="text-sm text-neutral-500">Payout Status</p>
               <p className="mt-1 text-sm font-medium text-emerald-700">
-                {payoutStatus}
+                {payoutLabelMap[payoutStatus]}
               </p>
             </div>
           </div>
