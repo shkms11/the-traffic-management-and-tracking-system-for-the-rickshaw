@@ -17,8 +17,6 @@ export default function HomePage() {
 
   const [step, setStep] = useState<1 | 2>(1);
   const [mode, setMode] = useState<Mode | null>(null);
-
-  // NEW
   const [highlightAuth, setHighlightAuth] = useState(false);
 
   const authRef = useRef<HTMLDivElement | null>(null);
@@ -52,7 +50,6 @@ export default function HomePage() {
       block: "center",
     });
 
-    // subtle temporary highlight
     setHighlightAuth(true);
 
     setTimeout(() => {
@@ -68,13 +65,14 @@ export default function HomePage() {
       className={`
         min-h-screen text-neutral-900
         ${largeText ? "text-lg md:text-xl" : "text-base"}
-        bg-gradient-to-b from-white via-neutral-50 to-neutral-100
+        bg-gradient-to-b from-slate-50 via-white to-blue-50
       `}
     >
-      {/* soft background */}
-      <div className="pointer-events-none fixed inset-0 opacity-40">
-        <div className="absolute -top-32 left-1/2 h-[420px] w-[420px] -translate-x-1/2 rounded-full bg-blue-100 blur-3xl" />
-        <div className="absolute bottom-0 right-0 h-[320px] w-[320px] rounded-full bg-emerald-100 blur-3xl" />
+      {/* Liquid glass ambient background */}
+      <div className="pointer-events-none fixed inset-0 overflow-hidden">
+        <div className="absolute -top-32 left-1/2 h-[500px] w-[500px] -translate-x-1/2 rounded-full bg-blue-200/40 blur-3xl" />
+        <div className="absolute bottom-0 right-0 h-[400px] w-[400px] rounded-full bg-emerald-200/30 blur-3xl" />
+        <div className="absolute top-1/2 left-0 h-[300px] w-[300px] rounded-full bg-cyan-100/30 blur-3xl" />
       </div>
 
       <main id="main-content" className="relative w-full">
@@ -126,19 +124,29 @@ export default function HomePage() {
           >
             <div
               className={`
-                rounded-2xl transition-all duration-500
-                ${highlightAuth ? "ring-2 ring-emerald-300/60" : "ring-0"}
+                relative overflow-hidden rounded-3xl
+                border border-white/30
+                bg-white/20
+                backdrop-blur-xl
+                shadow-[0_8px_32px_rgba(0,0,0,0.08)]
+                transition-all duration-500
+                ${highlightAuth ? "ring-2 ring-emerald-300/50" : "ring-0"}
               `}
             >
-              <AuthCard
-                text={text}
-                step={step}
-                mode={mode}
-                onLogin={() => startAuth("login")}
-                onRegister={() => startAuth("register")}
-                onBack={resetAuth}
-                onSelectRole={handleRoleSelect}
-              />
+              {/* liquid shine */}
+              <div className="absolute inset-0 bg-gradient-to-br from-white/40 via-white/10 to-transparent pointer-events-none" />
+
+              <div className="relative z-10">
+                <AuthCard
+                  text={text}
+                  step={step}
+                  mode={mode}
+                  onLogin={() => startAuth("login")}
+                  onRegister={() => startAuth("register")}
+                  onBack={resetAuth}
+                  onSelectRole={handleRoleSelect}
+                />
+              </div>
             </div>
           </div>
         </motion.section>
@@ -153,8 +161,21 @@ export default function HomePage() {
           className="mt-10 sm:mt-14"
         >
           <div className="mx-auto max-w-6xl px-4 sm:px-6">
-            <div className="rounded-3xl bg-white/60 px-4 py-10 shadow-sm backdrop-blur">
-              <FeatureGrid text={text} />
+            <div
+              className="
+                relative overflow-hidden rounded-3xl
+                border border-white/30
+                bg-white/20
+                px-4 py-10
+                backdrop-blur-xl
+                shadow-[0_8px_32px_rgba(0,0,0,0.08)]
+              "
+            >
+              <div className="absolute inset-0 bg-gradient-to-br from-white/35 via-white/10 to-transparent pointer-events-none" />
+
+              <div className="relative z-10">
+                <FeatureGrid text={text} />
+              </div>
             </div>
           </div>
         </motion.section>
@@ -168,8 +189,21 @@ export default function HomePage() {
           className="mt-10 pb-16"
         >
           <div className="mx-auto max-w-6xl px-4 sm:px-6">
-            <div className="rounded-3xl bg-gradient-to-r from-neutral-50 to-white px-4 py-10 shadow-inner">
-              <InfoStatsSection text={text} />
+            <div
+              className="
+                relative overflow-hidden rounded-3xl
+                border border-white/25
+                bg-white/15
+                px-4 py-10
+                backdrop-blur-xl
+                shadow-[0_8px_32px_rgba(0,0,0,0.08)]
+              "
+            >
+              <div className="absolute inset-0 bg-gradient-to-br from-white/30 to-transparent pointer-events-none" />
+
+              <div className="relative z-10">
+                <InfoStatsSection text={text} />
+              </div>
             </div>
           </div>
         </motion.section>

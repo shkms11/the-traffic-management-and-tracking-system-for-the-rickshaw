@@ -16,37 +16,44 @@ function FeatureCard({
   desc: string;
 }) {
   return (
-    <Card className="space-y-3 border-neutral-200 p-5 shadow-sm">
+    <Card
+      className="
+        border-white/30
+        bg-white/20
+        backdrop-blur-lg
+        shadow-sm
+        p-5
+        rounded-2xl
+        space-y-3
+      "
+    >
       <div className="text-emerald-700">{icon}</div>
       <h3 className="font-semibold text-neutral-800">{title}</h3>
-      <p className="text-sm leading-relaxed text-neutral-500">{desc}</p>
+      <p className="text-sm leading-relaxed text-neutral-600">{desc}</p>
     </Card>
   );
 }
 
 export function FeatureGrid({ text }: Props) {
   return (
-    <section
-      id="features"
-      className="mt-10 grid gap-4 sm:grid-cols-2 xl:grid-cols-4"
-    >
+    <section className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
       <FeatureCard
-        icon={<MapPin className="h-5 w-5" aria-hidden="true" />}
+        icon={<MapPin className="h-5 w-5" />}
         title={text.feature1Title}
         desc={text.feature1Desc}
       />
       <FeatureCard
-        icon={<Activity className="h-5 w-5" aria-hidden="true" />}
+        icon={<Activity className="h-5 w-5" />}
         title={text.feature2Title}
         desc={text.feature2Desc}
       />
       <FeatureCard
-        icon={<Navigation className="h-5 w-5" aria-hidden="true" />}
+        icon={<Navigation className="h-5 w-5" />}
         title={text.feature3Title}
         desc={text.feature3Desc}
       />
       <FeatureCard
-        icon={<Shield className="h-5 w-5" aria-hidden="true" />}
+        icon={<Shield className="h-5 w-5" />}
         title={text.feature4Title}
         desc={text.feature4Desc}
       />

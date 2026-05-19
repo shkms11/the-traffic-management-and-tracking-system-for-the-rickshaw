@@ -1,6 +1,5 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
-import { Card } from "@/components/ui/card";
 
 import type { Mode, Role, TextPack } from "@/shared/types/home.types";
 
@@ -8,25 +7,20 @@ type Props = {
   text: TextPack;
   step: 1 | 2;
   mode: Mode | null;
-
   onLogin: () => void;
   onRegister: () => void;
   onBack: () => void;
   onSelectRole: (role: Role) => void;
 };
 
-const roleStyles: Record<"driver" | "owner" | "admin", string> = {
-  // Primary role
-  driver:
-    "bg-emerald-700 text-white hover:bg-emerald-800 focus-visible:ring-emerald-600",
+const roleStyles: Record<Role, string> = {
+  driver: "bg-emerald-700 text-white hover:bg-emerald-800 shadow-sm",
 
-  // UPDATED: owner now green shade (was blue before)
   owner:
-    "bg-emerald-100 text-emerald-900 border border-emerald-300 hover:bg-emerald-200 focus-visible:ring-emerald-500",
+    "bg-white/40 border border-white/40 text-emerald-900 hover:bg-white/55 backdrop-blur-md",
 
-  // Authority role
   admin:
-    "bg-amber-50 text-amber-800 border border-amber-300 hover:bg-amber-100 focus-visible:ring-amber-500",
+    "bg-amber-50/70 border border-amber-200 text-amber-800 hover:bg-amber-100/80 backdrop-blur-md",
 };
 
 function RoleButton({
@@ -42,21 +36,20 @@ function RoleButton({
   disabled?: boolean;
   onClick: () => void;
 }) {
-  const isLoading = loading;
-
   return (
     <Button
       onClick={onClick}
-      disabled={disabled || isLoading}
-      aria-busy={isLoading}
-      className={[
-        "h-14 w-full rounded-md font-semibold transition-all border",
-        "focus-visible:outline-none focus-visible:ring-2",
-        roleStyles[role],
-        isLoading ? "opacity-70 cursor-not-allowed" : "",
-      ].join(" ")}
+      disabled={disabled || loading}
+      aria-busy={loading}
+      className={`
+        h-14 w-full rounded-xl
+        font-semibold
+        transition-all
+        ${roleStyles[role]}
+        ${loading ? "opacity-70 cursor-not-allowed" : ""}
+      `}
     >
-      {isLoading ? "Loading..." : label}
+      {loading ? "Loading..." : label}
     </Button>
   );
 }
@@ -85,33 +78,40 @@ export function AuthCard({
   const isRoleStep = step === 2;
 
   return (
-    <Card className="border-neutral-200 bg-white p-6 shadow-sm sm:p-7">
+    <div className="p-6 sm:p-7">
       <div className="space-y-6 text-center">
-        {/* TITLE */}
         <h3 className="text-xl font-semibold text-neutral-800">
           {isRoleStep ? text.chooseRole : text.chooseAction}
         </h3>
 
-        {/* STEP 1: LOGIN / REGISTER */}
         {!isRoleStep && (
           <div className="grid gap-3">
             <Button
-              className="h-12 bg-emerald-700 text-white hover:bg-emerald-800"
+              className="h-12 rounded-xl bg-emerald-700 text-white hover:bg-emerald-800"
               onClick={onLogin}
             >
               {text.login}
             </Button>
 
-            <Button variant="outline" className="h-12" onClick={onRegister}>
+            <Button
+              variant="outline"
+              className="
+                h-12 rounded-xl
+                border-white/40
+                bg-white/25
+                backdrop-blur-md
+                hover:bg-white/40
+              "
+              onClick={onRegister}
+            >
               {text.register}
             </Button>
           </div>
         )}
 
-        {/* STEP 2: ROLE SELECTION */}
         {isRoleStep && (
           <>
-            <p className="text-sm text-neutral-500">
+            <p className="text-sm text-neutral-600">
               {mode === "login" ? text.login : text.register}
             </p>
 
@@ -143,7 +143,13 @@ export function AuthCard({
 
             <Button
               variant="outline"
-              className="mt-2 h-11 w-full"
+              className="
+                h-11 w-full rounded-xl
+                border-white/40
+                bg-white/25
+                backdrop-blur-md
+                hover:bg-white/40
+              "
               onClick={onBack}
               disabled={!!loadingRole}
             >
@@ -152,6 +158,6 @@ export function AuthCard({
           </>
         )}
       </div>
-    </Card>
+    </div>
   );
 }
