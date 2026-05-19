@@ -4,6 +4,7 @@ import AppRoutes from "@/routes/AppRoutes";
 
 export default function App() {
   return (
+    //hasrouter for github deployment, unless the link breaks
     <HashRouter>
       <Providers>
         <AppRoutes />
