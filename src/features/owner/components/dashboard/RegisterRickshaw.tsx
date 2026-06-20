@@ -33,47 +33,28 @@ export default function RegisterRickshawModal() {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
 
-    console.log(formData);
+    console.log("Rickshaw Registered:", formData);
 
-    // TODO: call API
+    // TODO: API call here
   };
 
   return (
     <Dialog>
-      {/* Open Button */}
-      <DialogTrigger asChild>
-        <Button
-          className="
-            bg-emerald-700
-            hover:bg-emerald-800
-            text-white
-            rounded-xl
-            h-12
-            transition-all
-          "
-        >
+      {/* Trigger Button */}
+      <DialogTrigger>
+        <Button className="bg-emerald-700 hover:bg-emerald-800 text-white rounded-xl h-12 transition-all">
           <Plus className="mr-2 h-4 w-4" />
           Register Rickshaw
         </Button>
       </DialogTrigger>
 
       {/* Modal */}
-      <DialogContent
-        className="
-          max-w-2xl
-          rounded-3xl
-          border border-white/30
-          bg-white/20
-          backdrop-blur-xl
-          shadow-[0_8px_32px_rgba(0,0,0,0.08)]
-          p-0
-          overflow-hidden
-        "
-      >
-        {/* Shine overlay */}
+      <DialogContent className="max-w-2xl p-0 overflow-hidden rounded-3xl border border-white/30 bg-white/20 backdrop-blur-xl shadow-[0_8px_32px_rgba(0,0,0,0.08)]">
+        {/* Glass shine overlay */}
         <div className="pointer-events-none absolute inset-0 bg-gradient-to-br from-white/35 via-white/10 to-transparent" />
 
         <div className="relative z-10 p-6 sm:p-8">
+          {/* Header */}
           <DialogHeader className="mb-6">
             <DialogTitle className="flex items-center gap-3 text-xl font-semibold text-emerald-900">
               <Bike className="h-5 w-5 text-emerald-700" />
@@ -81,6 +62,7 @@ export default function RegisterRickshawModal() {
             </DialogTitle>
           </DialogHeader>
 
+          {/* Form */}
           <form onSubmit={handleSubmit} className="space-y-5">
             {/* Rickshaw Number */}
             <div className="space-y-2">
@@ -115,7 +97,7 @@ export default function RegisterRickshawModal() {
               />
             </div>
 
-            {/* License */}
+            {/* License Plate */}
             <div className="space-y-2">
               <Label>License Plate</Label>
               <Input
@@ -156,15 +138,7 @@ export default function RegisterRickshawModal() {
             {/* Submit */}
             <Button
               type="submit"
-              className="
-                w-full
-                h-12
-                rounded-xl
-                bg-emerald-700
-                hover:bg-emerald-800
-                text-white
-                transition-all
-              "
+              className="w-full h-12 rounded-xl bg-emerald-700 hover:bg-emerald-800 text-white transition-all"
             >
               Register Rickshaw
             </Button>
