@@ -1,4 +1,4 @@
-import { useMemo, useState, useRef } from "react";
+import { useMemo, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 
@@ -61,150 +61,83 @@ export default function HomePage() {
     <motion.div
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
-      transition={{ duration: 0.35, ease: "easeOut" }}
-      className={`
-        min-h-screen text-neutral-900
-        ${largeText ? "text-lg md:text-xl" : "text-base"}
-        bg-gradient-to-b from-slate-50 via-white to-blue-50
-      `}
+      transition={{ duration: 0.35 }}
+      className={`min-h-screen bg-slate-50 text-slate-900 ${
+        largeText ? "text-lg" : "text-base"
+      }`}
     >
-      {/* Liquid glass ambient background */}
-      <div className="pointer-events-none fixed inset-0 overflow-hidden">
-        <div className="absolute -top-32 left-1/2 h-[500px] w-[500px] -translate-x-1/2 rounded-full bg-blue-200/40 blur-3xl" />
-        <div className="absolute bottom-0 right-0 h-[400px] w-[400px] rounded-full bg-emerald-200/30 blur-3xl" />
-        <div className="absolute top-1/2 left-0 h-[300px] w-[300px] rounded-full bg-cyan-100/30 blur-3xl" />
-      </div>
-
-      <main id="main-content" className="relative w-full">
-        {/* HERO */}
+      <main id="main-content">
+        {/* Hero */}
         <motion.section
-          initial={{ y: 10, opacity: 0 }}
-          animate={{ y: 0, opacity: 1 }}
-          transition={{ delay: 0.05 }}
-          className="w-full"
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.35 }}
+          className="mx-auto max-w-6xl px-4 py-6 sm:px-6"
         >
-          <div className="mx-auto max-w-6xl px-4 sm:px-6 pt-2 sm:pt-4">
-            <HeroSection
+          <HeroSection
+            text={text}
+            onGetStarted={handleGetStarted}
+            onLearnMore={() =>
+              document
+                .getElementById("features")
+                ?.scrollIntoView({ behavior: "smooth" })
+            }
+          />
+        </motion.section>
+
+        {/* Authentication */}
+        <motion.section
+          ref={authRef}
+          initial={{ opacity: 0, y: 15 }}
+          animate={{
+            opacity: 1,
+            y: 0,
+            scale: highlightAuth ? 1.01 : 1,
+          }}
+          transition={{ duration: 0.35 }}
+          className="mx-auto max-w-2xl px-4 sm:px-6"
+        >
+          <div
+            className={`rounded-2xl border bg-white p-6 shadow-sm transition ${
+              highlightAuth ? "ring-2 ring-emerald-300" : ""
+            }`}
+          >
+            <AuthCard
               text={text}
-              onGetStarted={handleGetStarted}
-              onLearnMore={() =>
-                document.getElementById("features")?.scrollIntoView({
-                  behavior: "smooth",
-                })
-              }
+              step={step}
+              mode={mode}
+              onLogin={() => startAuth("login")}
+              onRegister={() => startAuth("register")}
+              onBack={resetAuth}
+              onSelectRole={handleRoleSelect}
             />
           </div>
         </motion.section>
 
-        {/* AUTH */}
-        <motion.section
-          ref={authRef}
-          initial={{ y: 15, opacity: 0 }}
-          animate={{
-            y: 0,
-            opacity: 1,
-            scale: highlightAuth ? 1.01 : 1,
-          }}
-          transition={{
-            delay: 0.1,
-            duration: 0.35,
-          }}
-          className="mt-6 sm:mt-8"
-        >
-          <div
-            className={`
-              mx-auto max-w-2xl px-4 sm:px-6
-              transition-all duration-500
-              ${
-                highlightAuth
-                  ? "drop-shadow-[0_0_24px_rgba(16,185,129,0.18)]"
-                  : ""
-              }
-            `}
-          >
-            <div
-              className={`
-                relative overflow-hidden rounded-3xl
-                border border-white/30
-                bg-white/20
-                backdrop-blur-xl
-                shadow-[0_8px_32px_rgba(0,0,0,0.08)]
-                transition-all duration-500
-                ${highlightAuth ? "ring-2 ring-emerald-300/50" : "ring-0"}
-              `}
-            >
-              {/* liquid shine */}
-              <div className="absolute inset-0 bg-gradient-to-br from-white/40 via-white/10 to-transparent pointer-events-none" />
-
-              <div className="relative z-10">
-                <AuthCard
-                  text={text}
-                  step={step}
-                  mode={mode}
-                  onLogin={() => startAuth("login")}
-                  onRegister={() => startAuth("register")}
-                  onBack={resetAuth}
-                  onSelectRole={handleRoleSelect}
-                />
-              </div>
-            </div>
-          </div>
-        </motion.section>
-
-        {/* FEATURES */}
+        {/* Features */}
         <motion.section
           id="features"
-          initial={{ y: 20, opacity: 0 }}
-          whileInView={{ y: 0, opacity: 1 }}
-          viewport={{ once: true, amount: 0.2 }}
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
           transition={{ duration: 0.4 }}
-          className="mt-10 sm:mt-14"
+          className="mx-auto mt-12 max-w-6xl px-4 sm:px-6"
         >
-          <div className="mx-auto max-w-6xl px-4 sm:px-6">
-            <div
-              className="
-                relative overflow-hidden rounded-3xl
-                border border-white/30
-                bg-white/20
-                px-4 py-10
-                backdrop-blur-xl
-                shadow-[0_8px_32px_rgba(0,0,0,0.08)]
-              "
-            >
-              <div className="absolute inset-0 bg-gradient-to-br from-white/35 via-white/10 to-transparent pointer-events-none" />
-
-              <div className="relative z-10">
-                <FeatureGrid text={text} />
-              </div>
-            </div>
+          <div className="rounded-2xl border bg-white p-6 shadow-sm sm:p-8">
+            <FeatureGrid text={text} />
           </div>
         </motion.section>
 
-        {/* INFO */}
+        {/* Information */}
         <motion.section
-          initial={{ y: 20, opacity: 0 }}
-          whileInView={{ y: 0, opacity: 1 }}
-          viewport={{ once: true, amount: 0.2 }}
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
           transition={{ duration: 0.4 }}
-          className="mt-10 pb-16"
+          className="mx-auto max-w-6xl px-4 py-12 pb-16 sm:px-6"
         >
-          <div className="mx-auto max-w-6xl px-4 sm:px-6">
-            <div
-              className="
-                relative overflow-hidden rounded-3xl
-                border border-white/25
-                bg-white/15
-                px-4 py-10
-                backdrop-blur-xl
-                shadow-[0_8px_32px_rgba(0,0,0,0.08)]
-              "
-            >
-              <div className="absolute inset-0 bg-gradient-to-br from-white/30 to-transparent pointer-events-none" />
-
-              <div className="relative z-10">
-                <InfoStatsSection text={text} />
-              </div>
-            </div>
+          <div className="rounded-2xl border bg-white p-6 shadow-sm sm:p-8">
+            <InfoStatsSection text={text} />
           </div>
         </motion.section>
       </main>
