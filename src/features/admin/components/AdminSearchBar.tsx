@@ -1,94 +1,91 @@
 import { Search } from "lucide-react";
-import { Card } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
+import { useState } from "react";
+
 import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
 
-export default function AdminSearchBar() {
+export type SearchType =
+  | "All"
+  | "Drivers"
+  | "Owners"
+  | "Location"
+  | "Complaints";
+
+type AdminSearchBarProps = {
+  onSearch?: (query: string, type: SearchType) => void;
+};
+
+const filters: SearchType[] = [
+  "All",
+  "Drivers",
+  "Owners",
+  "Location",
+  "Complaints",
+];
+
+export default function AdminSearchBar({ onSearch }: AdminSearchBarProps) {
+  const [query, setQuery] = useState("");
+  const [type, setType] = useState<SearchType>("All");
+
+  const handleSearch = () => {
+    const trimmedQuery = query.trim();
+
+    if (!trimmedQuery) return;
+
+    onSearch?.(trimmedQuery, type);
+  };
+
   return (
-    <Card className="relative overflow-hidden rounded-3xl border border-white/30 bg-white/20 backdrop-blur-xl shadow-[0_8px_32px_rgba(0,0,0,0.08)]">
-      {/* Glass shine */}
-      <div className="pointer-events-none absolute inset-0 bg-gradient-to-br from-white/35 via-white/10 to-transparent" />
+    <div className="space-y-4">
+      {/* Header */}
+      <div>
+        <h2 className="text-lg font-semibold">Global Search</h2>
 
-      <div className="relative z-10 p-6">
-        <div className="flex flex-col gap-4">
-          {/* Header */}
-          <div>
-            <h2 className="text-lg font-semibold text-neutral-800">
-              Global Search
-            </h2>
-
-            <p className="text-sm text-neutral-500">
-              Search users, drivers, trips, payments and complaints
-            </p>
-          </div>
-
-          {/* Search Input */}
-          <div className="relative">
-            <Search className="absolute left-4 top-1/2 h-4 w-4 -translate-y-1/2 text-neutral-400" />
-
-            <Input
-              placeholder="Search users, drivers, trips, payments..."
-              className="h-12 rounded-xl border-white/40 bg-white/25 pl-11 backdrop-blur-md transition-all focus-visible:ring-emerald-600"
-            />
-          </div>
-
-          {/* Filters */}
-          <div className="flex flex-wrap gap-2">
-            <Badge className="cursor-pointer bg-emerald-700 text-white hover:bg-emerald-800">
-              All
-            </Badge>
-
-            <Badge
-              variant="outline"
-              className="cursor-pointer rounded-lg border-white/40 bg-white/20 backdrop-blur-md"
-            >
-              Users
-            </Badge>
-
-            <Badge
-              variant="outline"
-              className="cursor-pointer rounded-lg border-white/40 bg-white/20 backdrop-blur-md"
-            >
-              Drivers
-            </Badge>
-
-            <Badge
-              variant="outline"
-              className="cursor-pointer rounded-lg border-white/40 bg-white/20 backdrop-blur-md"
-            >
-              Trips
-            </Badge>
-
-            <Badge
-              variant="outline"
-              className="cursor-pointer rounded-lg border-white/40 bg-white/20 backdrop-blur-md"
-            >
-              Payments
-            </Badge>
-
-            <Badge
-              variant="outline"
-              className="cursor-pointer rounded-lg border-white/40 bg-white/20 backdrop-blur-md"
-            >
-              Complaints
-            </Badge>
-          </div>
-
-          {/* Shortcut Hint */}
-          <div className="flex items-center justify-between text-sm text-neutral-500">
-            <span>Quick admin search</span>
-
-            <div className="flex gap-1">
-              <kbd className="rounded-md border border-white/30 bg-white/20 px-2 py-1 text-xs backdrop-blur-md">
-                Ctrl
-              </kbd>
-              <kbd className="rounded-md border border-white/30 bg-white/20 px-2 py-1 text-xs backdrop-blur-md">
-                K
-              </kbd>
-            </div>
-          </div>
-        </div>
+        <p className="text-sm text-muted-foreground">
+          Search users, drivers, trips, payments and complaints.
+        </p>
       </div>
-    </Card>
+
+      {/* Search */}
+      <div className="relative">
+        <Search
+          className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground"
+          aria-hidden="true"
+        />
+
+        <Input
+          value={query}
+          onChange={(event) => setQuery(event.target.value)}
+          onKeyDown={(event) => {
+            if (event.key === "Enter") {
+              handleSearch();
+            }
+          }}
+          placeholder="Search..."
+          aria-label="Search admin data"
+          className="h-11 pl-9"
+        />
+      </div>
+
+      {/* Filters */}
+      <div className="flex flex-wrap gap-2">
+        {filters.map((filter) => {
+          const isActive = type === filter;
+
+          return (
+            <Button
+              key={filter}
+              type="button"
+              size="sm"
+              variant={isActive ? "default" : "outline"}
+              onClick={() => setType(filter)}
+              className={isActive ? "bg-emerald-700 hover:bg-emerald-800" : ""}
+            >
+              {filter}
+            </Button>
+          );
+        })}
+      </div>
+    </div>
   );
 }

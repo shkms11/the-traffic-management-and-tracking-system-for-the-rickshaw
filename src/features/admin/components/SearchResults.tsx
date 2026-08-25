@@ -1,0 +1,86 @@
+import { SearchX } from "lucide-react";
+
+import { Card } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
+
+export type SearchResult = {
+  id: string;
+  name: string;
+  type: "driver" | "owner" | "location" | "complaint";
+  description?: string;
+};
+
+interface SearchResultsProps {
+  results: SearchResult[];
+  isLoading?: boolean;
+  error?: boolean;
+  hasSearched?: boolean;
+}
+
+export default function SearchResults({
+  results,
+  isLoading = false,
+  error = false,
+  hasSearched = false,
+}: SearchResultsProps) {
+  if (!hasSearched) {
+    return null;
+  }
+
+  if (isLoading) {
+    return (
+      <Card className="p-6">
+        <p className="text-sm text-muted-foreground">Searching...</p>
+      </Card>
+    );
+  }
+
+  if (error) {
+    return (
+      <Card className="p-6">
+        <p className="text-sm text-destructive">
+          Something went wrong while searching.
+        </p>
+      </Card>
+    );
+  }
+
+  if (results.length === 0) {
+    return (
+      <Card className="flex flex-col items-center justify-center gap-2 p-8 text-center">
+        <SearchX className="h-8 w-8 text-muted-foreground" aria-hidden="true" />
+
+        <p className="font-medium">No results found</p>
+
+        <p className="text-sm text-muted-foreground">
+          Try a different search term or filter.
+        </p>
+      </Card>
+    );
+  }
+
+  return (
+    <Card className="divide-y">
+      {results.map((result) => (
+        <div
+          key={`${result.type}-${result.id}`}
+          className="flex items-center justify-between gap-4 p-4"
+        >
+          <div className="min-w-0">
+            <p className="truncate text-sm font-medium">{result.name}</p>
+
+            {result.description && (
+              <p className="truncate text-sm text-muted-foreground">
+                {result.description}
+              </p>
+            )}
+          </div>
+
+          <Badge variant="outline" className="shrink-0 capitalize">
+            {result.type}
+          </Badge>
+        </div>
+      ))}
+    </Card>
+  );
+}

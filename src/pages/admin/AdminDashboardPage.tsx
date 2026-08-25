@@ -1,10 +1,18 @@
 import DashboardLayout from "../../shared/components/layout/DashboardLayout";
+
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 
 import TrafficHeatmap from "../../features/traffic/components/TrafficHeatmap";
 import DispatchPanel from "../../features/dispatch/components/DispatchPanel";
-import AdminSearchBar from "@/features/admin/components/AdminSearchBar";
+
+import AdminSearchBar, {
+  type SearchType,
+} from "@/features/admin/components/AdminSearchBar";
+
+import SearchResults from "@/features/admin/components/SearchResults";
+
+import { useLazySearchAdminQuery } from "@/api/adminApi";
 
 const stats = [
   { label: "Total Rickshaws", value: "120" },
@@ -21,14 +29,38 @@ const operations = [
     note: "Requires attention",
     danger: true,
   },
-  { label: "Pending Support", value: "12", note: "Awaiting response" },
+  {
+    label: "Pending Support",
+    value: "12",
+    note: "Awaiting response",
+  },
 ];
 
 export default function AdminDashboardPage() {
+  const [searchAdmin, { data, isFetching, error }] = useLazySearchAdminQuery();
+
+  const handleSearch = (query: string, type: SearchType) => {
+    searchAdmin({
+      query,
+      type,
+    });
+  };
+
+  const results = data?.results ?? [];
+
   return (
     <DashboardLayout title="Admin Control Center">
       <div className="space-y-6">
-        <AdminSearchBar />
+        {/* Search */}
+        <AdminSearchBar onSearch={handleSearch} />
+
+        {/* Search Results */}
+        <SearchResults
+          results={results}
+          hasSearched={isFetching || !!data || !!error}
+          isLoading={isFetching}
+          error={!!error}
+        />
 
         {/* Overview */}
         <div className="grid gap-4 md:grid-cols-3">
@@ -51,6 +83,7 @@ export default function AdminDashboardPage() {
         <Card className="p-6">
           <div className="mb-5 flex items-center justify-between">
             <h2 className="text-lg font-semibold">Operations Center</h2>
+
             <Badge>Live</Badge>
           </div>
 
@@ -88,6 +121,7 @@ export default function AdminDashboardPage() {
         {/* Traffic */}
         <Card className="p-6">
           <h2 className="mb-4 text-lg font-semibold">Traffic Heatmap</h2>
+
           <TrafficHeatmap />
         </Card>
       </div>
