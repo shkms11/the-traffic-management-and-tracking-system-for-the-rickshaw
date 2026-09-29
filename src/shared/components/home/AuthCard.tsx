@@ -14,13 +14,11 @@ type Props = {
 };
 
 const roleStyles: Record<Role, string> = {
-  driver: "bg-emerald-700 text-white hover:bg-emerald-800 shadow-sm",
-
+  driver: "bg-emerald-700 text-white hover:bg-emerald-800",
   owner:
-    "bg-white/40 border border-white/40 text-emerald-900 hover:bg-white/55 backdrop-blur-md",
-
+    "bg-white border border-emerald-200 text-emerald-900 hover:bg-emerald-50",
   admin:
-    "bg-amber-50/70 border border-amber-200 text-amber-800 hover:bg-amber-100/80 backdrop-blur-md",
+    "bg-amber-50 border border-amber-200 text-amber-800 hover:bg-amber-100",
 };
 
 function RoleButton({
@@ -41,13 +39,9 @@ function RoleButton({
       onClick={onClick}
       disabled={disabled || loading}
       aria-busy={loading}
-      className={`
-        h-14 w-full rounded-xl
-        font-semibold
-        transition-all
-        ${roleStyles[role]}
-        ${loading ? "opacity-70 cursor-not-allowed" : ""}
-      `}
+      className={`h-14 w-full rounded-xl font-semibold ${
+        roleStyles[role]
+      } ${loading ? "cursor-not-allowed opacity-70" : ""}`}
     >
       {loading ? "Loading..." : label}
     </Button>
@@ -80,7 +74,7 @@ export function AuthCard({
   return (
     <div className="p-6 sm:p-7">
       <div className="space-y-6 text-center">
-        <h3 className="text-xl font-semibold text-neutral-800">
+        <h3 className="text-xl font-semibold text-slate-800">
           {isRoleStep ? text.chooseRole : text.chooseAction}
         </h3>
 
@@ -95,13 +89,7 @@ export function AuthCard({
 
             <Button
               variant="outline"
-              className="
-                h-12 rounded-xl
-                border-white/40
-                bg-white/25
-                backdrop-blur-md
-                hover:bg-white/40
-              "
+              className="h-12 rounded-xl"
               onClick={onRegister}
             >
               {text.register}
@@ -111,7 +99,7 @@ export function AuthCard({
 
         {isRoleStep && (
           <>
-            <p className="text-sm text-neutral-600">
+            <p className="text-sm text-muted-foreground">
               {mode === "login" ? text.login : text.register}
             </p>
 
@@ -143,13 +131,7 @@ export function AuthCard({
 
             <Button
               variant="outline"
-              className="
-                h-11 w-full rounded-xl
-                border-white/40
-                bg-white/25
-                backdrop-blur-md
-                hover:bg-white/40
-              "
+              className="h-11 w-full rounded-xl"
               onClick={onBack}
               disabled={!!loadingRole}
             >
